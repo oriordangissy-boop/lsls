@@ -9,7 +9,7 @@ window.PASSPORT_CONFIG = {
   issuerName: "时计档案",
   publicBaseUrl: "https://oriordangissy-boop.github.io/lsls/",
   supportUrl: "?page=service",
-  demoMode: true,
+  demoMode: false,
   publicNotice:
     "本页由销售方维护，用于展示商品资料、销售方公示价和内部唯一编码。它不替代品牌授权、第三方鉴定、所有权证明或保值承诺。"
 };
@@ -24,6 +24,7 @@ function makeRecord(options) {
       collection: options.collection,
       name: options.name,
       model: options.model,
+      editionTotal: options.limit,
       visibleSerial: options.model + "-001/" + String(options.limit).padStart(3, "0"),
       editionNumber: "展示号 001 / " + options.limit,
       seriesEdition: "全系列 1,000 枚（销售方资料）",
@@ -79,7 +80,7 @@ window.PASSPORT_REGISTRY = [
   makeRecord({ token: "m7qa-3036-multi-001", recordId: "REC-20260907-009", model: "ZY-3036LB.03", name: "彩虹盘运动腕表 · 拼色", collection: "SPECTRUM", image: "zy-3036lb-03.jpg", limit: 100 }),
   makeRecord({ token: "m7qa-3036-green-001", recordId: "REC-20260907-010", model: "ZY-3036LB.04", name: "彩虹圈运动腕表 · 绿色", collection: "SPECTRUM", image: "zy-3036lb-04.jpg", limit: 50 }),
   makeRecord({ token: "m7qa-3036-pink-001", recordId: "REC-20260907-011", model: "ZY-3036LB.05", name: "彩虹圈运动腕表 · 粉色", collection: "SPECTRUM", image: "zy-3036lb-05.jpg", limit: 50 }),
-  makeRecord({ token: "m7qa-3035-black-001", recordId: "REC-20260907-012", model: "ZY-3035LB.01", name: "经典钢带腕表 · 黑色", collection: "STEEL DIVER", image: "zy-3035lb-01.jpg", limit: 80 }),
-  makeRecord({ token: "m7qa-3035-green-001", recordId: "REC-20260907-013", model: "ZY-3035LB.02", name: "经典钢带腕表 · 绿色", collection: "STEEL DIVER", image: "zy-3035lb-02.jpg", limit: 100 }),
-  makeRecord({ token: "m7qa-3035-blue-001", recordId: "REC-20260907-014", model: "ZY-3035LB.03", name: "经典钢带腕表 · 蓝色", collection: "STEEL DIVER", image: "zy-3035lb-03.jpg", limit: 20 })
+  makeRecord({ token: "m7qa-3035-black-001", recordId: "REC-20260907-012", model: "ZY-3035LB.01", name: "经典钢带腕表 · 黑色", collection: "STEEL DIVER", image: "zy-3035lb-01.jpg", limit: 70 }),
+  makeRecord({ token: "m7qa-3035-green-001", recordId: "REC-20260907-013", model: "ZY-3035LB.02", name: "经典钢带腕表 · 绿色", collection: "STEEL DIVER", image: "zy-3035lb-02.jpg", limit: 80 }),
+  makeRecord({ token: "m7qa-3035-blue-001", recordId: "REC-20260907-014", model: "ZY-3035LB.03", name: "经典钢带腕表 · 蓝色", collection: "STEEL DIVER", image: "zy-3035lb-03.jpg", limit: 50 })
 ];
