@@ -1,6 +1,7 @@
 (() => {
 "use strict";
 const items = window.PASSPORT_REGISTRY;
+const units = window.TIMEPIECE_UNITS || [];
 const config = window.PASSPORT_CONFIG;
 const main = document.querySelector("#main");
 const params = new URLSearchParams(location.search);
@@ -13,9 +14,9 @@ const series = {
 };
 const colorNames=["深蓝","橙色","绿色","黑色","红色","白色","红色","蓝色","拼色","绿色","粉色","黑色","绿色","蓝色"];
 const colors=["#233886","#ed7b28","#267741","#292625","#b72629","#efeeea","#bf282d","#275ab2","#9870c8","#164f38","#d69da9","#282828","#246f4c","#24619a"];
-items.forEach((r,i)=>{ r.color=colorNames[i];r.swatch=colors[i];r.limit=Number(r.product.visibleSerial.split("/")[1]);r.index=i;});
+items.forEach((r,i)=>{ r.color=colorNames[i];r.swatch=colors[i];r.limit=r.product.editionTotal;r.index=i;});
 const href = r => "?sku=" + encodeURIComponent(r.product.model);
-const image = (r, cls="",lazy=true)=>'<img class="'+cls+'" src="'+esc(r.product.image)+'" alt="'+esc(r.product.name)+'" width="450" height="600" '+(lazy?'loading="lazy"':'fetchpriority="high"')+'>';
+const image = (r, cls="",lazy=true)=>'<span class="photo-frame '+cls+'" data-model="'+esc(r.product.model)+'"><img src="'+esc(r.product.image)+'" alt="'+esc(r.product.name)+'" width="450" height="600" '+(lazy?'loading="lazy"':'fetchpriority="high"')+'></span>';
 const arrow = '<span aria-hidden="true">↗</span>';
 const card = r => '<a class="product-card" href="'+href(r)+'"><div class="product-photo">'+image(r)+'<span class="card-ref">'+esc(r.product.model)+'</span><span class="card-open" aria-hidden="true">↗</span></div><div class="card-info"><span class="overline">'+series[r.product.collection].label+'</span><h3>'+esc(r.product.name)+'</h3><span class="card-color"><i style="--swatch:'+r.swatch+'"></i>'+r.color+'</span><p>'+price(r.price.amount)+'<small>销售方公示价</small></p></div></a>';
 function toast(message){const t=document.querySelector("#toast");t.textContent=message;t.classList.add("visible");clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove("visible"),2500);}
@@ -65,9 +66,41 @@ function renderLookup(){
 }
 function renderService(){main.innerHTML='<section class="service-page wrap"><span class="overline">CLIENT SERVICES</span><h1>资料与售后</h1><p class="lead">让每一次选择，都有可查的信息。</p><details open><summary>商品资料与价格</summary><p>本网站展示销售方提供的 14 款腕表图片、型号及人民币公示价。公示价为 ¥49,999，资料日期为 2026-09-07；具体交易条款请与销售方确认。</p></details><details open><summary>腕表编号与记录</summary><p>款式型号用于区分设计与配色；单表编号用于对应具体实物。当前单表页是未绑定实物的编号样张，正式记录须由销售方完成实物登记后发布。</p></details><details open><summary>售后联系</summary><p>请联系购买时的销售人员，并提供商品型号、购买凭证及问题照片。本站当前未提供在线售后受理。</p></details><details><summary>页面运营与数据说明</summary><p>这是销售方商品展示站点，非品牌方认证平台。查询无需提供姓名、手机号或微信授权；站点未接入广告追踪。商品信息由销售方维护。</p></details><a class="button dark" href="./#collection">返回腕表系列 ↗</a></section>';}
 function renderMissing(){main.innerHTML='<section class="lookup wrap"><span class="overline">RECORD NOT FOUND</span><h1>未找到这条记录</h1><p>该链接不对应本站的款式或已收录编号，请检查完整链接。</p><a class="button dark" href="?page=lookup">重新查询 ↗</a></section>';}
+function enhanceEdition(r, unit){
+ const number=unit?String(unit.number).padStart(2,'0'):null;
+ const panel=document.createElement('section');panel.className='edition-plaque';
+ panel.setAttribute('aria-label',unit?'此枚腕表的独立编号':'本款限量信息');
+ panel.innerHTML='<div class="edition-top"><span>TIMEPIECE / LIMITED EDITION</span><span>'+ (unit?'N° '+number:'EDITION') +'</span></div><div class="edition-count">'+(unit?'<span class="edition-prefix">第</span><strong>'+number+'</strong><span class="edition-total">/ '+unit.total+' 枚</span>':'<strong>'+r.limit+'</strong><span class="edition-total">枚</span>')+'</div><p class="edition-caption">全球限量 '+r.limit+' 枚'+(unit?' · 此枚独立编号':' · 每枚独立编号')+'</p>'+(unit?'<code class="edition-serial">'+esc(unit.serial)+'</code>':'')+'<p class="edition-source">限量及编号由销售方提供'+(unit?' · 编号已签发，贴牌时核对实物':'')+'</p>';
+ document.querySelector('.detail-price').after(panel);
+ const facts=document.querySelector('.detail-facts dl');
+ facts.lastElementChild.innerHTML='<dt>全球限量</dt><dd>'+r.limit+' 枚<small>销售方发行资料</small></dd>';
+ if(unit){
+  document.title=unit.serial+' · 第 '+number+' / '+unit.total+' 枚 · 时计';
+  document.querySelector('.reference').textContent='REF. '+r.product.model+' / N° '+number;
+  facts.insertAdjacentHTML('beforeend','<div><dt>此枚编号</dt><dd>'+number+' / '+unit.total+'</dd></div><div><dt>唯一编码</dt><dd class="serial-value">'+esc(unit.serial)+'</dd></div>');
+  document.querySelector('.share-button').textContent='复制此枚腕表链接';
+  document.querySelector('.detail .button.full').textContent='查询其他腕表编号 ↗';
+  const note=document.createElement('section');note.className='issued-record wrap';
+  note.innerHTML='<div><span class="overline">YOUR INDIVIDUAL TIMEPIECE</span><h2>一枚腕表，一份独立记录。</h2></div><dl><div><dt>唯一编码</dt><dd>'+esc(unit.serial)+'</dd></div><div><dt>限量序号</dt><dd>'+number+' / '+unit.total+'</dd></div><div><dt>签发日期</dt><dd>'+unit.issuedAt+'</dd></div></dl><p>请将此编码与吊牌、保卡或销售方出库清单逐一核对。本站记录由销售方签发，不代表品牌鉴定；二维码可被复制，不单独作为真伪或所有权证明。</p>';
+  document.querySelector('.related').before(note);
+ }
+ document.querySelector('.zoom-button').onclick=()=>{const img=document.querySelector('#zoom-image');img.src=r.product.image;img.alt=r.product.name;img.dataset.model=r.product.model;img.style.clipPath=getComputedStyle(document.querySelector('.zoom-button .photo-frame img')).clipPath;document.querySelector('#image-dialog').showModal();};
+}
 const token=params.get("v"),sku=params.get("sku"),page=params.get("page");
-if(token||sku){const r=items.find(x=>token?x.token===token:x.product.model===sku);r?renderProduct(r,!!token):renderMissing();}
+if(token||sku){const unit=token?units.find(u=>u.token===token):null;const r=items.find(x=>token?(unit?x.product.model===unit.model:x.token===token):x.product.model===sku);if(r){renderProduct(r,!!token&&!unit);enhanceEdition(r,unit);}else renderMissing();}
 else if(page==="lookup")renderLookup();else if(page==="service")renderService();else renderHome();
+if(page==='lookup'&&!token&&!sku){
+ document.querySelector('.lookup-help p:last-child').textContent='已签发 1,000 个独立编号，覆盖 14 款腕表。输入完整编号（如 ZY-3038LB.04-01）查询该枚记录；贴牌与实物对应关系由销售方出库时核对。';
+ document.querySelector('#lookup-form').onsubmit=e=>{
+  e.preventDefault();const q=document.querySelector('#lookup-input').value.trim();
+  const u=units.find(u=>u.serial.toUpperCase()===q.toUpperCase()||u.token===q);
+  const r=items.find(r=>r.product.model.toUpperCase()===(u?u.model:q.toUpperCase()));
+  const out=document.querySelector('#lookup-result');
+  if(!r){out.innerHTML='<div class="lookup-message"><h3>未找到对应资料</h3><p>请核对完整编号与分隔符。未签发或超出本款限量范围的编号不会创建记录。</p></div>';return;}
+  out.innerHTML='<div class="lookup-match">'+image(r)+'<div><span class="overline">'+(u?'独立编号 · 第 '+String(u.number).padStart(2,'0')+' / '+u.total+' 枚':'款式资料 · 全球限量 '+r.limit+' 枚')+'</span><h2>'+esc(r.product.name)+'</h2><p>'+esc(u?u.serial:r.product.model)+'</p><strong>'+price(r.price.amount)+'</strong><a class="text-link" href="'+(u?'?v='+encodeURIComponent(u.token):href(r))+'">查看完整资料 ↗</a></div></div>';
+ };
+}
+if(page==='service'&&!token&&!sku){document.querySelectorAll('.service-page details').forEach(d=>{if(d.querySelector('summary').textContent==='腕表编号与记录')d.querySelector('p').textContent='本站已签发 1,000 个独立编号，按 14 个款式分别连续编号。每个编号拥有独立网址，展示该枚序号和本款限量。限量信息由销售方提供；贴牌、保卡或表背与实物的对应关系须在出库时核对。二维码可被复制，不单独作为品牌鉴定或所有权证明。';});}
 document.querySelector("#menu-toggle").onclick=e=>{const nav=document.querySelector("#mobile-nav");nav.hidden=!nav.hidden;e.currentTarget.setAttribute("aria-expanded",String(!nav.hidden));};
 const searchDialog=document.querySelector("#search-dialog"),searchInput=document.querySelector("#global-search");
 function search(){const q=searchInput.value.trim().toLowerCase();const matches=items.filter(r=>(r.product.model+" "+r.product.name+" "+series[r.product.collection].name).toLowerCase().includes(q));document.querySelector("#search-results").innerHTML=matches.length?matches.map(r=>'<a class="search-result" href="'+href(r)+'">'+image(r)+'<span>'+esc(r.product.name)+'<small>'+esc(r.product.model)+'</small></span><strong>'+price(r.price.amount)+'</strong></a>').join(''):'<p class="no-results">没有找到相关腕表，请尝试其他型号或颜色。</p>';}

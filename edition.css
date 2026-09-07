@@ -1,0 +1,62 @@
+/* Edition 3: preserve original watch pixels; hide only table remnants in the presentation. */
+:root{--edition-metal:#937f61;--edition-soft:#eeeae3}
+.photo-frame{display:block;position:relative;aspect-ratio:3/4;flex-shrink:0;isolation:isolate;--trim:0 0 0 0}
+.photo-frame img{display:block;width:100%;height:100%;object-fit:fill;clip-path:inset(var(--trim));mix-blend-mode:multiply;filter:contrast(1.045) saturate(.98)}
+.photo-frame[data-model="MW-30038G.02"]{--trim:0 3% 3.5% 5%}
+.photo-frame[data-model="ZY-3038LB.03"]{--trim:0 3% 5.8% 6%}
+.photo-frame[data-model="ZY-3038LB.04"]{--trim:0 3% 6.3% 6%}
+.photo-frame[data-model="ZY-3038LB.05"]{--trim:0 4% 2.6% 0}
+.photo-frame[data-model="ZY-3038LB.06"]{--trim:0 2% 3.2% 0}
+.photo-frame[data-model="ZY-3036LB.04"]{--trim:0 3% 2.7% 0}
+.photo-frame[data-model="ZY-3036LB.05"]{--trim:0 12% 0 0}
+.photo-frame[data-model="ZY-3035LB.01"],.photo-frame[data-model="ZY-3035LB.02"]{--trim:0 12% 0 0}
+.photo-frame[data-model="ZY-3035LB.03"]{--trim:0 0 5.3% 0}
+.product-photo{background:radial-gradient(ellipse at 50% 45%,#fff 40%,#f7f7f5 74%,#eeedea 100%);border:1px solid #efeeeb}
+.product-photo:after{content:"";position:absolute;width:44%;height:3%;bottom:6%;left:28%;background:#27251e18;filter:blur(9px);border-radius:50%;pointer-events:none}
+.product-photo>.photo-frame{width:78%;height:auto;max-height:87%;mix-blend-mode:multiply;transition:transform .4s;z-index:1}
+.product-card:hover .product-photo>.photo-frame{transform:translateY(-4px) scale(1.025)}
+.hero-visual{background:radial-gradient(ellipse,#fff 30%,#e7e8e7 100%)}
+.hero-visual .hero-watch{height:460px;width:345px;mix-blend-mode:multiply;filter:none}
+.design-image{background:radial-gradient(ellipse,#fff 40%,#e8e9e7 100%)}
+.design-image>.photo-frame{height:375px;width:281px;transform:rotate(-8deg);mix-blend-mode:multiply}
+.design-image .photo-frame img{height:100%;width:100%;transform:none}
+.zoom-button{background:radial-gradient(ellipse,#fff 42%,#f2f2ef 100%);border:1px solid #eeece8}
+.zoom-button>.photo-frame{height:500px;width:375px;max-width:92%;mix-blend-mode:multiply}
+.zoom-button .photo-frame img{height:100%;width:100%}
+.detail-info{min-width:0}
+.detail-facts dl>div{display:grid;grid-template-columns:90px minmax(0,1fr);gap:18px;font-size:12px;align-items:baseline}
+.detail-facts dt{white-space:nowrap}.detail-facts dd{min-width:0;overflow-wrap:anywhere}
+.detail-facts dd small{display:block;font-size:9px;color:#8b8881;margin-top:3px}
+.detail-facts .serial-value{font-family:Consolas,monospace;font-size:11px}
+.edition-plaque{margin:25px 0 28px;padding:22px 25px 18px;background:linear-gradient(115deg,#f9f8f5,#eae7e0 56%,#f9f8f6);border:1px solid #d4cdc1;position:relative;box-shadow:inset 0 0 0 4px #ffffff5e}
+.edition-top{display:flex;justify-content:space-between;gap:15px;color:#75654f;font:9px Arial,sans-serif;letter-spacing:1.7px}
+.edition-count{display:flex;align-items:baseline;gap:13px;margin:10px 0 0;color:#292721}
+.edition-count strong{font:normal 66px/1.2 Georgia,serif;letter-spacing:-2px;font-variant-numeric:lining-nums tabular-nums}
+.edition-prefix{font-size:12px;color:#736b5e}.edition-total{font:18px Georgia,"Songti SC",serif;color:#8c7d68;white-space:nowrap}
+.edition-caption{font-size:12px;letter-spacing:1.5px;margin:5px 0 14px}
+.edition-serial{font-family:Consolas,"Courier New",monospace;font-size:13px;letter-spacing:1px;display:block;border-top:1px solid #b7a99070;padding-top:12px;overflow-wrap:anywhere}
+.edition-source{font-size:9px;letter-spacing:.2px;color:#827b70;margin:9px 0 0;line-height:1.7}
+.issued-record{padding:34px 38px;margin-bottom:45px;border-top:1px solid #b5a38a;border-bottom:1px solid #d6d0c6;display:grid;grid-template-columns:1fr 1fr;gap:10px 45px;background:#faf9f6}
+.issued-record .overline{color:#94836a;font-size:9px}.issued-record h2{font:26px/1.6 var(--display);margin-top:15px}
+.issued-record dl{margin:0}.issued-record dd{font-family:Consolas,monospace;overflow-wrap:anywhere}.issued-record p{grid-column:1/-1;font-size:10px;color:#89857d;line-height:1.9;margin:12px 0 0}
+.lookup-match>.photo-frame{width:110px;height:147px;mix-blend-mode:multiply}.lookup-match .photo-frame img{width:100%;height:100%}
+.search-result>.photo-frame{width:50px;height:67px}.search-result .photo-frame img{width:100%;height:100%}
+.image-dialog img{width:min(54vh,100%);height:auto;max-height:72vh;margin:auto}
+.label-unit-edition{font-size:8px;letter-spacing:.2px}.print-label .label-demo{color:#68615a}
+@media(min-width:1700px){.hero-visual .hero-watch{height:510px;width:383px}}
+@media(max-width:1100px){.zoom-button>.photo-frame{height:440px;width:330px}}
+@media(max-width:760px){
+ .product-photo>.photo-frame{width:85%;height:auto;max-height:85%}
+ .hero-visual .hero-watch{height:290px;width:218px}
+ .design-image>.photo-frame{height:245px;width:184px;max-width:94%}
+ .zoom-button>.photo-frame{height:330px;width:248px}
+ .edition-plaque{padding:19px 21px 17px;margin:20px 0}
+ .edition-count strong{font-size:58px}.edition-top{font-size:8px;letter-spacing:1.3px}.edition-count{gap:11px}
+ .edition-serial{font-size:12px;letter-spacing:.5px}
+ .issued-record{display:block;padding:27px 22px}.issued-record h2{font-size:23px}.issued-record dl{margin-top:22px}
+ .detail-facts dl>div{grid-template-columns:82px minmax(0,1fr);gap:13px}
+ .related .section-title{align-items:flex-start}.related .section-title>div{min-width:0}.related .section-title h2{font-size:23px;letter-spacing:1px}.related .section-title>a{white-space:nowrap;flex-shrink:0}
+ .lookup-match>.photo-frame{width:80px;height:107px}
+ .lookup-match>div{min-width:0}.lookup-match p{overflow-wrap:anywhere}
+}
+@media(max-width:500px){.hero-visual .hero-watch{height:285px;width:214px}.edition-top{letter-spacing:1px}.edition-caption{letter-spacing:.6px}.related .section-title{display:block}.related .section-title>a{margin-top:15px}}
