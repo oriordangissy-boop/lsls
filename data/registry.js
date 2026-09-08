@@ -11,7 +11,7 @@ window.PASSPORT_CONFIG = {
   supportUrl: "?page=service",
   demoMode: false,
   publicNotice:
-    "本页由销售方维护，用于展示商品资料、销售方公示价和内部唯一编码。它不替代品牌授权、第三方鉴定、所有权证明或保值承诺。"
+    "本页由销售方维护，用于展示商品资料、品牌联名定制官方价和内部唯一编码。它不替代品牌授权、第三方鉴定、所有权证明或保值承诺。"
 };
 
 function makeRecord(options) {
@@ -32,7 +32,8 @@ function makeRecord(options) {
       imageAlt: options.name + "，销售方提供的商品资料图"
     },
     price: {
-      label: "销售方公示价",
+      label: "品牌联名定制官方价",
+      sourceNote: "定价信息由销售方确认提供，本站未独立核验授权及定价文件。",
       amount: 49999,
       currency: "CNY",
       effectiveDate: "2026-09-07",
@@ -49,7 +50,7 @@ function makeRecord(options) {
     evidence: {
       label: "销售方公示记录",
       method:
-        "本页首先公开销售方的定价版本与商品资料，并保留未来补充的采购、鉴定或公开来源的位置。未经独立核验的资料不会表述为品牌方官方信息。",
+        "本页首先公开销售方的定价版本与商品资料，并保留未来补充的采购、鉴定或公开来源的位置。价格名称依据销售方确认采用“品牌联名定制官方价”；本站未独立核验品牌授权及定价文件。",
       exchangeRate: "当前为销售方人民币公示价，不以外币换算结果作为定价依据。",
       sources: []
     },
@@ -57,7 +58,7 @@ function makeRecord(options) {
       {
         date: "2026-09-07",
         title: "商品资料已建立",
-        description: "款式图、型号和销售方公示价已录入；实物资料待出库前复核。"
+        description: "款式图、型号和品牌联名定制官方价已录入；实物资料待出库前复核。"
       },
       {
         date: "待出库",
