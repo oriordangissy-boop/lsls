@@ -21,7 +21,7 @@ function render(){
  if(isUnit&&!u){output.innerHTML='';status.textContent='尚未加载已签发编号，请刷新页面。';return;}
  const serial=isUnit?u.serial:r.product.model;
  const edition=isUnit?'第 '+String(u.number).padStart(2,'0')+' / '+u.total+' 枚':'全球限量 '+r.product.editionTotal+' 枚';
- output.innerHTML='<article class="print-label"><div class="label-copy"><span class="label-brand">Timepiece</span><div><small>销售方公示价 / CNY</small><strong class="label-price-value">¥ '+r.price.amount.toLocaleString('zh-CN')+'</strong></div><span class="label-unit-edition">'+edition+'</span><code class="label-serial">'+esc(serial)+'</code><span class="label-demo">销售方限量编号资料</span></div><div class="label-qr-box" id="qr-output">填写网站地址<br>生成二维码</div></article>';
+ output.innerHTML='<article class="print-label"><div class="label-copy"><span class="label-brand">Timepiece</span><div><small>品牌联名定制官方价 / CNY</small><strong class="label-price-value">¥ '+r.price.amount.toLocaleString('zh-CN')+'</strong></div><span class="label-unit-edition">'+edition+'</span><code class="label-serial">'+esc(serial)+'</code><span class="label-demo">销售方限量编号资料</span></div><div class="label-qr-box" id="qr-output">填写网站地址<br>生成二维码</div></article>';
  try{
   const url=new URL(base.value.trim());
   const local=['localhost','127.0.0.1','[::1]'].includes(url.hostname);
