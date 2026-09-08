@@ -2,7 +2,7 @@
 :root{--edition-metal:#937f61;--edition-soft:#eeeae3}
 .photo-frame{display:block;position:relative;aspect-ratio:3/4;flex-shrink:0;isolation:isolate;--trim:0 0 0 0}
 .photo-frame img{display:block;width:100%;height:100%;object-fit:fill;clip-path:inset(var(--trim));mix-blend-mode:multiply;filter:contrast(1.045) saturate(.98)}
-.photo-frame[data-model="ZY-3038L.02"]{--trim:0 3% 3.5% 5%}
+.photo-frame[data-model="ZY-3038LB.02"]{--trim:0 3% 3.5% 5%}
 .photo-frame[data-model="ZY-3038LB.03"]{--trim:0 3% 5.8% 6%}
 .photo-frame[data-model="ZY-3038LB.04"]{--trim:0 3% 6.3% 6%}
 .photo-frame[data-model="ZY-3038LB.05"]{--trim:0 4% 2.6% 0}

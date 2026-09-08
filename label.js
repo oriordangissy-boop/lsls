@@ -6,7 +6,7 @@ const params=new URLSearchParams(location.search),esc=v=>String(v??'').replace(/
 let svg='',filename='';
 picker.innerHTML=records.map(r=>'<option value="'+esc(r.product.model)+'">'+esc(r.product.model+' · '+r.product.name.split(' · ')[1])+'</option>').join('');
 const initialUnit=units.find(u=>u.token===params.get('v'));
-if(params.get('sku')==='MW-30038G.02')params.set('sku','ZY-3038L.02');
+if(['MW-30038G.02','ZY-3038L.02'].includes(params.get('sku')))params.set('sku','ZY-3038LB.02');
 const initial=records.find(r=>r.product.model===(initialUnit?.model||params.get('sku')));
 if(initial)picker.value=initial.product.model;
 base.value=config.publicBaseUrl||'';
