@@ -5,6 +5,9 @@ const units = window.TIMEPIECE_UNITS || [];
 const config = window.PASSPORT_CONFIG;
 const main = document.querySelector("#main");
 const params = new URLSearchParams(location.search);
+// Preserve previously shared product URLs after the seller's SKU correction.
+if(params.get('sku')==='MW-30038G.02')params.set('sku','ZY-3038L.02');
+if(params.get('model')==='MW-30038G.02')params.set('model','ZY-3038L.02');
 const esc = value => String(value ?? "").replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
 const price = value => "¥ " + Number(value).toLocaleString("zh-CN");
 const series = {
@@ -92,7 +95,7 @@ else if(page==="lookup")renderLookup();else if(page==="service")renderService();
 if(page==='lookup'&&!token&&!sku){
  document.querySelector('.lookup-help p:last-child').textContent='已签发 1,000 个独立编号，覆盖 14 款腕表。输入完整编号（如 ZY-3038LB.04-01）查询该枚记录；贴牌与实物对应关系由销售方出库时核对。';
  document.querySelector('#lookup-form').onsubmit=e=>{
-  e.preventDefault();const q=document.querySelector('#lookup-input').value.trim();
+  e.preventDefault();const q=document.querySelector('#lookup-input').value.trim().replace(/^MW-30038G\.02(?=-|$)/i,'ZY-3038L.02');
   const u=units.find(u=>u.serial.toUpperCase()===q.toUpperCase()||u.token===q);
   const r=items.find(r=>r.product.model.toUpperCase()===(u?u.model:q.toUpperCase()));
   const out=document.querySelector('#lookup-result');
