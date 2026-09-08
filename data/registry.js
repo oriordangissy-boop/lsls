@@ -71,7 +71,7 @@ function makeRecord(options) {
 
 window.PASSPORT_REGISTRY = [
   makeRecord({ token: "m7qa-3038-blue-001", recordId: "REC-20260907-001", model: "ZY-3038LB.01", name: "镂空运动腕表 · 深蓝", collection: "SKELETON SPORT", image: "zy-3038lb-01.jpg", limit: 50 }),
-  makeRecord({ token: "m7qa-3038-orange-001", recordId: "REC-20260907-002", model: "ZY-3038L.02", name: "镂空运动腕表 · 橙色", collection: "SKELETON SPORT", image: "mw-30038g-02.jpg", limit: 50 }),
+  makeRecord({ token: "m7qa-3038-orange-001", recordId: "REC-20260907-002", model: "ZY-3038LB.02", name: "镂空运动腕表 · 橙色", collection: "SKELETON SPORT", image: "mw-30038g-02.jpg", limit: 50 }),
   makeRecord({ token: "m7qa-3038-green-001", recordId: "REC-20260907-003", model: "ZY-3038LB.03", name: "镂空运动腕表 · 绿色", collection: "SKELETON SPORT", image: "zy-3038lb-03.jpg", limit: 50 }),
   makeRecord({ token: "m7qa-3038-black-001", recordId: "REC-20260907-004", model: "ZY-3038LB.04", name: "镂空运动腕表 · 黑玫瑰金", collection: "SKELETON SPORT", image: "zy-3038lb-04.jpg", limit: 100 }),
   makeRecord({ token: "m7qa-3038-red-001", recordId: "REC-20260907-005", model: "ZY-3038LB.05", name: "镂空运动腕表 · 红色", collection: "SKELETON SPORT", image: "zy-3038lb-05.jpg", limit: 200 }),
