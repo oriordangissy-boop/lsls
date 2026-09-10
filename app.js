@@ -3,6 +3,8 @@
 const items = window.PASSPORT_REGISTRY;
 const units = window.TIMEPIECE_UNITS || [];
 const config = window.PASSPORT_CONFIG;
+const kron = window.KronCollection;
+const kronProducts = window.KRON_PRODUCTS || [];
 const main = document.querySelector("#main");
 const params = new URLSearchParams(location.search);
 // Preserve previously shared product URLs after the seller's SKU correction.
@@ -90,23 +92,29 @@ function enhanceEdition(r, unit){
  document.querySelector('.zoom-button').onclick=()=>{const img=document.querySelector('#zoom-image');img.src=r.product.image;img.alt=r.product.name;img.dataset.model=r.product.model;img.style.clipPath=getComputedStyle(document.querySelector('.zoom-button .photo-frame img')).clipPath;document.querySelector('#image-dialog').showModal();};
 }
 const token=params.get("v"),sku=params.get("sku"),page=params.get("page");
-if(token||sku){const unit=token?units.find(u=>u.token===token):null;const r=items.find(x=>token?(unit?x.product.model===unit.model:x.token===token):x.product.model===sku);if(r){renderProduct(r,!!token&&!unit);enhanceEdition(r,unit);}else renderMissing();}
+if(!token&&sku&&kronProducts.some(r=>r.model===sku)){kron.product(main,kronProducts.find(r=>r.model===sku));}
+else if(token||sku){const unit=token?units.find(u=>u.token===token):null;const r=items.find(x=>token?(unit?x.product.model===unit.model:x.token===token):x.product.model===sku);if(r){renderProduct(r,!!token&&!unit);enhanceEdition(r,unit);}else renderMissing();}
+else if(params.get('brand')==='kronsegler'){kron.home(main,params);}
 else if(page==="lookup")renderLookup();else if(page==="service")renderService();else renderHome();
+if(!token&&!sku&&!page&&!params.get('brand')&&kron){document.querySelector('.collection-nav').insertAdjacentHTML('beforebegin',kron.teaser());}
 if(page==='lookup'&&!token&&!sku){
- document.querySelector('.lookup-help p:last-child').textContent='已签发 1,000 个独立编号，覆盖 14 款腕表。输入完整编号（如 ZY-3038LB.04-01）查询该枚记录；贴牌与实物对应关系由销售方出库时核对。';
+ document.querySelector('.lookup-help p:last-child').textContent='原有14款腕表已签发1,000个独立编号；康斯格15款支持按完整型号查询，尚未签发单表编号。贴牌与实物对应关系由销售方出库时核对。';
  document.querySelector('#lookup-form').onsubmit=e=>{
   e.preventDefault();const q=document.querySelector('#lookup-input').value.trim().replace(/^(?:MW-30038G\.02|ZY-3038L\.02)(?=-|$)/i,'ZY-3038LB.02');
   const u=units.find(u=>u.serial.toUpperCase()===q.toUpperCase()||u.token===q);
   const r=items.find(r=>r.product.model.toUpperCase()===(u?u.model:q.toUpperCase()));
   const out=document.querySelector('#lookup-result');
+  const kr=kronProducts.find(r=>r.model.toUpperCase()===q.toUpperCase());
+  if(kr){out.innerHTML=kron.lookup(kr);return;}
   if(!r){out.innerHTML='<div class="lookup-message"><h3>未找到对应资料</h3><p>请核对完整编号与分隔符。未签发或超出本款限量范围的编号不会创建记录。</p></div>';return;}
   out.innerHTML='<div class="lookup-match">'+image(r)+'<div><span class="overline">'+(u?'独立编号 · 第 '+String(u.number).padStart(2,'0')+' / '+u.total+' 枚':'款式资料 · 全球限量 '+r.limit+' 枚')+'</span><h2>'+esc(r.product.name)+'</h2><p>'+esc(u?u.serial:r.product.model)+'</p><strong>'+price(r.price.amount)+'</strong><a class="text-link" href="'+(u?'?v='+encodeURIComponent(u.token):href(r))+'">查看完整资料 ↗</a></div></div>';
  };
 }
 if(page==='service'&&!token&&!sku){document.querySelectorAll('.service-page details').forEach(d=>{if(d.querySelector('summary').textContent==='腕表编号与记录')d.querySelector('p').textContent='本站已签发 1,000 个独立编号，按 14 个款式分别连续编号。每个编号拥有独立网址，展示该枚序号和本款限量。限量信息由销售方提供；贴牌、保卡或表背与实物的对应关系须在出库时核对。二维码可被复制，不单独作为品牌鉴定或所有权证明。';});}
+if(page==='service'&&!token&&!sku){const ds=document.querySelectorAll('.service-page details');ds[0].querySelector('p').textContent='本网站展示原有14款腕表及康斯格15款商品资料。原有系列人民币品牌联名定制官方价为¥49,999；康斯格价格以其商品详情页为准，不沿用原有系列定价。图片、规格、数量均来自销售方提供的资料，具体交易条款请与销售方确认。';ds[1].querySelector('p').textContent+=' 康斯格专区当前仅有款式资料，尚未签发单表编号；其供应数量为企业渠道本批数量，不代表全球限量。';}
 document.querySelector("#menu-toggle").onclick=e=>{const nav=document.querySelector("#mobile-nav");nav.hidden=!nav.hidden;e.currentTarget.setAttribute("aria-expanded",String(!nav.hidden));};
 const searchDialog=document.querySelector("#search-dialog"),searchInput=document.querySelector("#global-search");
-function search(){const q=searchInput.value.trim().toLowerCase();const matches=items.filter(r=>(r.product.model+" "+r.product.name+" "+series[r.product.collection].name).toLowerCase().includes(q));document.querySelector("#search-results").innerHTML=matches.length?matches.map(r=>'<a class="search-result" href="'+href(r)+'">'+image(r)+'<span>'+esc(r.product.name)+'<small>'+esc(r.product.model)+'</small></span><strong>'+price(r.price.amount)+'</strong></a>').join(''):'<p class="no-results">没有找到相关腕表，请尝试其他型号或颜色。</p>';}
+function search(){const q=searchInput.value.trim().toLowerCase();const matches=items.filter(r=>(r.product.model+" "+r.product.name+" "+series[r.product.collection].name).toLowerCase().includes(q));const html=matches.map(r=>'<a class="search-result" href="'+href(r)+'">'+image(r)+'<span>'+esc(r.product.name)+'<small>'+esc(r.product.model)+'</small></span><strong>'+price(r.price.amount)+'</strong></a>').join('')+(kron?kron.search(q):'');document.querySelector("#search-results").innerHTML=html||'<p class="no-results">没有找到相关腕表，请尝试其他型号或颜色。</p>';}
 document.querySelector("#search-open").onclick=()=>{searchDialog.showModal();search();searchInput.focus();};searchInput.addEventListener("input",search);
 document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>b.closest("dialog").close());
 document.querySelectorAll("dialog").forEach(d=>d.addEventListener("click",e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}}));
