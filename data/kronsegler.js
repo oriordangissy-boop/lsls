@@ -28,7 +28,9 @@ window.KRON_PRODUCTS = [
 ].map(([model,series,color,supply,swatch,strap],i)=>({
  model,series,color,supply,swatch,strap,brand:'KRONSEGLER 康斯格',
  name:'康斯格 '+series+' 系列 · '+color,
- image:'assets/kronsegler/'+series+'-'+(i%5+1)+'.png',
+ image:'assets/kronsegler/'+series+'-'+(i%5+1)+'-1.jpg',
+ gallery:Array.from({length:series==='779'&&i%5<4?3:2},(_,angle)=>({src:'assets/kronsegler/'+series+'-'+(i%5+1)+'-'+(angle+1)+'.jpg',label:angle===0?(series==='779'?'正面 · 表盘与表壳':'全貌 · 正反面'):(angle===2||model==='KS779.24.02.30.21'?'正反面 · 机芯与表壳':'细节 · 商品摄影')})),
+ imageSource:'https://www.kronsegler.de/index.php/product?id='+({'745':57,'746':67,'779':70}[series]),
  diameter:'43 mm',waterResistance:'5 ATM',movement:'日本自动机械机芯 · 9110（销售方资料）',
  dataAsOf:'2026-09-09',source:'销售方企业限量定制礼品渠道资料'
 }));
