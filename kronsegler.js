@@ -5,7 +5,7 @@
  const href=r=>'?sku='+encodeURIComponent(r.model);
  const money=()=>window.KRON_PRICE.confirmed?'¥ '+window.KRON_PRICE.amount.toLocaleString('zh-CN'):'价格待确认';
  const photo=(r,lazy=true)=>'<span class="kron-photo" data-model="'+r.model+'"><img src="'+r.image+'" alt="'+esc(r.name+'，'+r.strap)+'" '+(lazy?'loading="lazy"':'fetchpriority="high"')+'></span>';
- const card=r=>'<a class="product-card kron-card" href="'+href(r)+'"><div class="product-photo">'+photo(r)+'<span class="card-ref">'+r.model+'</span><span class="card-open" aria-hidden="true">↗</span></div><div class="card-info"><span class="overline">KRONSEGLER / '+r.series+'</span><h3>'+esc(r.color)+' · '+esc(r.strap)+'</h3><span class="card-color"><i style="--swatch:'+r.swatch+'"></i>'+esc(r.model)+'</span><p>'+money()+(window.KRON_PRICE.confirmed?'<small>'+window.KRON_PRICE.label+'</small>':'')+'</p></div></a>';
+ const card=r=>'<a class="product-card kron-card" href="'+href(r)+'"><div class="product-photo">'+photo(r)+'<span class="card-ref">'+r.model+'</span><span class="card-open" aria-hidden="true">↗</span></div><div class="card-info"><span class="overline">KRONSEGLER / '+r.series+' · '+esc(r.editionLabel)+'</span><h3>'+esc(r.color)+' · '+esc(r.strap)+'</h3><span class="card-color"><i style="--swatch:'+r.swatch+'"></i>'+esc(r.model)+'</span><p>'+money()+(window.KRON_PRICE.confirmed?'<small>'+window.KRON_PRICE.label+'</small>':'')+'</p></div></a>';
  const archive='<img src="assets/kronsegler/779-2-2.jpg" alt="康斯格779星空蓝腕表，表壳与蓝色表带细节" width="1392" height="1920" fetchpriority="high">';
  const brandLink='?brand=kronsegler';
  function activate(){document.body.classList.add('kron-page');document.querySelectorAll('a[href="?brand=kronsegler"]').forEach(a=>a.setAttribute('aria-current','page'));}
@@ -25,7 +25,7 @@
  }
  function teaser(){return '<section class="kron-teaser wrap"><div><span class="overline">NEW COLLECTION / KRONSEGLER</span><h2>康斯格，<br>另一种时间表达。</h2><p>745 · 746 · 779<br>三个系列，十五款腕间风格。</p><a class="button dark" href="'+brandLink+'">探索康斯格 <span>↗</span></a></div><a class="kron-teaser-art" href="'+brandLink+'" aria-label="探索康斯格腕表">'+archive+'</a></section>';}
  function search(q){return products.filter(r=>(r.model+' '+r.name+' '+r.strap+' KRONSEGLER').toLowerCase().includes(q)).map(r=>'<a class="search-result" href="'+href(r)+'">'+photo(r)+'<span>'+esc(r.name)+'<small>'+r.model+'</small></span><strong>'+money()+'</strong></a>').join('');}
- function lookup(r){return '<div class="lookup-match kron-lookup">'+photo(r)+'<div><span class="overline">康斯格 · 款式资料</span><h2>'+esc(r.name)+'</h2><p>'+r.model+'</p><strong>'+money()+'</strong><a class="text-link" href="'+href(r)+'">查看完整资料 ↗</a></div></div>';}
+ function lookup(r){return '<div class="lookup-match kron-lookup">'+photo(r)+'<div><span class="overline">康斯格 · 限量定制款</span><h2>'+esc(r.name)+'</h2><p>'+r.model+'</p><strong>'+money()+'</strong><a class="text-link" href="'+href(r)+'">查看完整资料 ↗</a></div></div>';}
  const identities={
   '745':{en:'Genius',cn:'天才 · 745系列',detail:'层次之间，见精巧。',intro:'叶形指针、扇形显示与层叠盘面。由整体到局部，细看机械腕表的秩序。'},
   '746':{en:'Relativity',cn:'相对论 · 746系列',detail:'从容，自成风格。',intro:'疏朗的时标与圆形显示相映，细长指针掠过盘面，留下清晰的时间读数。'},
@@ -34,7 +34,7 @@
  function premiumProduct(main,r){
   activate();const id=identities[r.series],gallery=r.gallery;
   document.title=r.model+' · 康斯格 '+r.series+' 系列 · 时计';
-  const facts=[['品牌','KRONSEGLER 康斯格'],['商品型号',r.model],['系列',id.cn],['颜色',r.color],['表带',r.strap],['表盘尺寸',r.diameter],['防水标示',r.waterResistance],['机芯',r.movement],['本批供应',r.supply+' 枚']];
+  const facts=[['品牌','KRONSEGLER 康斯格'],['商品型号',r.model],['款式',r.editionLabel],['系列',id.cn],['颜色',r.color],['表带',r.strap],['表盘尺寸',r.diameter],['防水标示',r.waterResistance],['机芯',r.movement],['本批供应',r.supply+' 枚']];
   main.innerHTML=`<div class="breadcrumbs wrap"><a href="./">首页</a><span>/</span><a href="${brandLink}">康斯格</a><span>/</span><span>${r.series} · ${r.color}</span></div>
    <article class="kron-premium wrap">
     <section class="kron-gallery" aria-label="商品图片">
@@ -42,7 +42,7 @@
      <div class="kron-gallery-bottom"><div class="kron-thumbnails" aria-label="选择商品图片">${gallery.map((g,i)=>`<button data-kron-image="${i}" aria-label="查看${g.label}" aria-pressed="${i===0}"><img src="${g.src}" alt="" loading="lazy"></button>`).join('')}</div><span id="kron-image-count" aria-live="polite">01 / ${String(gallery.length).padStart(2,'0')}</span></div>
      <p class="kron-image-note">品牌官网商品摄影 · 表带与细节版本以实物为准</p>
     </section>
-    <section class="kron-product-info"><span class="overline">KRONSEGLER · AUTOMATIC</span><h1>${id.en}<span>${id.cn}</span></h1><p class="kron-color"><i style="background:${r.swatch}"></i>${r.color} · ${r.strap}</p><p class="reference">REF. ${r.model}</p><div class="detail-price">${money()}<span>${window.KRON_PRICE.confirmed?esc(window.KRON_PRICE.label)+' · CNY':'人民币公开售价核对中'}</span></div><p class="kron-product-intro">${id.intro}</p>
+    <section class="kron-product-info"><span class="overline">KRONSEGLER · AUTOMATIC · ${esc(r.editionLabel)}</span><h1>${id.en}<span>${id.cn}</span></h1><p class="kron-color"><i style="background:${r.swatch}"></i>${r.color} · ${r.strap}</p><p class="reference">REF. ${r.model}</p><div class="detail-price">${money()}<span>${window.KRON_PRICE.confirmed?esc(window.KRON_PRICE.label)+' · CNY / 枚':'人民币公开售价核对中'}</span></div><p class="kron-product-intro">${id.intro}</p>
      <div class="kron-spec-strip"><div><strong>43<small> mm</small></strong><span>表盘尺寸</span></div><div><strong>自动<small>机械</small></strong><span>机芯类型</span></div><div><strong>5<small> ATM</small></strong><span>资料标示防水</span></div></div>
      <div class="variant-label">选择款式 <span>${r.color} / ${r.strap}</span></div><div class="kron-variants">${products.filter(x=>x.series===r.series).map(x=>`<a href="${href(x)}" aria-label="${esc(x.color+' '+x.strap+' '+x.model)}" ${x===r?'aria-current="true"':''}>${photo(x)}<small>${x.color}</small></a>`).join('')}</div>
      <a class="button dark full" href="#kron-details">查看商品资料 <span>↓</span></a><button class="kron-share-link" id="kron-share">复制此款链接 <span>↗</span></button><p class="kron-share-status" id="kron-share-status" role="status"></p>
