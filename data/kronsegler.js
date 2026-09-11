@@ -1,9 +1,10 @@
 /* Seller-provided product sheets, received 2026-09-09.
  * Supply is this enterprise-channel batch, not a verified global edition.
- * Public price/currency awaits seller confirmation. No unit tokens issued here.
+ * Seller confirmed CNY 6,890 per watch and limited custom edition wording.
+ * No unit tokens issued here.
  * Private trade prices are intentionally excluded from this public file.
  */
-window.KRON_PRICE = { amount: 6890, currency: 'CNY', confirmed: false, label: '销售方公示价' };
+window.KRON_PRICE = { amount: 6890, currency: 'CNY', confirmed: true, label: '销售方公示价' };
 window.KRON_SERIES = {
   '745': { name: '745 系列', theme: '层次之间，见精巧。', copy: '以细腻的盘面层次，呈现机械腕表的秩序之美。银色、金色与灰色，为日常留下不同的表达。', total: 600 },
   '746': { name: '746 系列', theme: '从容，自成风格。', copy: '圆润轮廓与疏朗盘面相映，在星空蓝与月光银之间，寻找属于自己的日常节奏。', total: 450 },
@@ -26,7 +27,7 @@ window.KRON_PRODUCTS = [
  ['KS779.21.03.32.21','779','月光银',150,'#c4c6c8','黑色表带'],
  ['KS779.24.02.30.21','779','苍穹灰',150,'#777977','灰色表带']
 ].map(([model,series,color,supply,swatch,strap],i)=>({
- model,series,color,supply,swatch,strap,brand:'KRONSEGLER 康斯格',
+ model,series,color,supply,swatch,strap,brand:'KRONSEGLER 康斯格',editionLabel:'限量定制款',
  name:'康斯格 '+series+' 系列 · '+color,
  image:'assets/kronsegler/'+series+'-'+(i%5+1)+'-1.jpg',
  gallery:Array.from({length:series==='779'&&i%5<4?3:2},(_,angle)=>({src:'assets/kronsegler/'+series+'-'+(i%5+1)+'-'+(angle+1)+'.jpg',label:angle===0?(series==='779'?'正面 · 表盘与表壳':'全貌 · 正反面'):(angle===2||model==='KS779.24.02.30.21'?'正反面 · 机芯与表壳':'细节 · 商品摄影')})),
